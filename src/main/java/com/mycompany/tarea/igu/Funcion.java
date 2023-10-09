@@ -186,8 +186,6 @@ public class Funcion extends javax.swing.JPanel {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel7.setText("Sala");
 
-        boxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setText("Estado Funcion");
 
@@ -326,11 +324,13 @@ public class Funcion extends javax.swing.JPanel {
             if(DtoPeli.getTitulo().equals(nombrePelicula)){
                 DtoPelicula = DtoPeli;
             }else{
+                /*
                 JOptionPane optionPane = new JOptionPane("No se ha encontrado la pelicula");
                 optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
                 JDialog dialog = optionPane.createDialog("Error");
                 dialog.setAlwaysOnTop(true);
                 dialog.setVisible(true);
+                */
             }
         }
         return DtoPelicula;
@@ -342,11 +342,13 @@ public class Funcion extends javax.swing.JPanel {
             if(DtoSla.getNombreSala().equals(nombreSala)){
                 DtoSala = DtoSla;
             }else{
+                /*
                 JOptionPane optionPane = new JOptionPane("No se ha encontrado la sala");
                 optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
                 JDialog dialog = optionPane.createDialog("Error");
                 dialog.setAlwaysOnTop(true);
                 dialog.setVisible(true);
+                */
             }
         }
         return DtoSala;
@@ -358,11 +360,13 @@ public class Funcion extends javax.swing.JPanel {
             if(DtoEstado.getNombreEstFun().equals(nombreEstado)){
                 DtoEstadoFuncion = DtoEstado;
             }else{
+                /*
                 JOptionPane optionPane = new JOptionPane("No se ha encontrado el estado funcion");
                 optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
                 JDialog dialog = optionPane.createDialog("Error");
                 dialog.setAlwaysOnTop(true);
                 dialog.setVisible(true);
+                */
             }
         }
         return DtoEstadoFuncion;
@@ -414,7 +418,7 @@ public class Funcion extends javax.swing.JPanel {
             }
         };
         //establecer nombre y columnas
-        String titulos[] = {"ID", "Titulo", "Duracion", "FechaAlta", "FechaBaja"};
+        String titulos[] = {"ID", "Pelicula", "Sala", "Horario", "Fecha", "Precio", "Estado"};
         tabla.setColumnIdentifiers(titulos);
         
         //carga de los datos desde la base de datos
@@ -423,7 +427,7 @@ public class Funcion extends javax.swing.JPanel {
         //recorrer la lista y mostrar cada uno de llos elementos en la tabla
         if (listaDtoFuncion != null){
             for (DTOFuncion DtoFunc : listaDtoFuncion){
-                Object[] objeto = {};    
+                Object[] objeto = {DtoFunc.getId(), DtoFunc.getDTOpelicula().getTitulo(), DtoFunc.getDTOsala().getNombreSala(), DtoFunc.getHorario(), DtoFunc.getFecha(), DtoFunc.getPrecioEntrada(), DtoFunc.getDTOestadoFuncion().getNombreEstFun()};    
                 tabla.addRow(objeto);
             }
         }

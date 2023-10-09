@@ -249,9 +249,10 @@ public class Controladora {
     public List<DTOEstadoFuncion> traerEstados(){
         List<EstadoFuncion> listaEstados = ControlPersis.traerEstados();
         List<DTOEstadoFuncion> listaDtoEstados = new ArrayList<>();
-        DTOEstadoFuncion DtoEstado = new DTOEstadoFuncion();
+        
         int index = 0;
         for(EstadoFuncion estado: listaEstados){
+            DTOEstadoFuncion DtoEstado = new DTOEstadoFuncion();
             DtoEstado.setId(String.valueOf(estado.getId()));
             DtoEstado.setNombreEstFun(estado.getNombreEstFun());
             listaDtoEstados.add(DtoEstado);
@@ -276,7 +277,7 @@ public class Controladora {
         for(Funcion Func: listaFunciones){
             DtoFunc.setId(String.valueOf(Func.getId()));
             DtoFunc.setHorario(String.valueOf(Func.getHorario()));
-            DtoFunc.setFecha(String.valueOf(Func.getHorario()));
+            DtoFunc.setFecha(dateFormat.format(Func.getFecha()));
             DtoFunc.setCantEntradasVendidas(String.valueOf(Func.getCantEntradasVendidas()));
             DtoFunc.setPrecioEntrada(String.valueOf(Func.getPrecioEntrada()));
             DtoFunc.setCantRecaudada(String.valueOf(Func.getCantRecaudada()));
@@ -385,8 +386,7 @@ public class Controladora {
             float precioEntrada = Float.parseFloat(precio);
             funcion.setPrecioEntrada(precioEntrada);
             
-            SimpleDateFormat formato = new SimpleDateFormat();
-            Date FechaAlta = formato.parse(fechaAlta);
+            Date FechaAlta = dateFormat.parse(fechaAlta);
             funcion.setFecha(FechaAlta);
             
             ControlPersis.crearFuncion(funcion);
