@@ -4,6 +4,8 @@ package com.mycompany.tarea.igu;
 import com.mycompany.tarea.logica.Controladora;
 import com.mycompany.tarea.logica.DTODescuento;
 import com.mycompany.tarea.logica.DTOFuncion;
+import com.mycompany.tarea.logica.DTOSala;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -12,6 +14,9 @@ import javax.swing.table.DefaultTableModel;
 public class Entrada extends javax.swing.JPanel {
 
     Controladora control = new Controladora();
+    private List<DTODescuento> listaDtoDescuentos = control.traerDescuentos();
+    private List<DTOFuncion> listaDtoFunciones = control.traerFunciones();
+    
     public Entrada() {
         initComponents();
         actualizarTabla();
@@ -32,10 +37,7 @@ public class Entrada extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableEntrada = new javax.swing.JTable();
-        jLabel3 = new javax.swing.JLabel();
-        txtAsiento = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtFila = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -46,14 +48,13 @@ public class Entrada extends javax.swing.JPanel {
         txtFuncion = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
+        boxAsientos = new javax.swing.JComboBox<>();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Entrada");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Aplicar Descuento");
-
-        boxDescuento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -74,18 +75,17 @@ public class Entrada extends javax.swing.JPanel {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
         );
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setText("Nro Asiento");
-
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setText("Fila");
+        jLabel4.setText("Asiento");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -162,23 +162,21 @@ public class Entrada extends javax.swing.JPanel {
                     .addGroup(EntradaPanelLayout.createSequentialGroup()
                         .addGroup(EntradaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
+                            .addComponent(jLabel7)
+                            .addComponent(txtFuncion, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(EntradaPanelLayout.createSequentialGroup()
                                 .addGroup(EntradaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(boxAsientos, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(txtPrecio, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(boxDescuento, javax.swing.GroupLayout.Alignment.LEADING, 0, 198, Short.MAX_VALUE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtAsiento, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtFila, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(EntradaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(LabelPrecioDesc)
-                                    .addComponent(jButton5)))
-                            .addComponent(jLabel7)
-                            .addComponent(txtFuncion, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 163, Short.MAX_VALUE)
+                                    .addComponent(jButton5))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -208,11 +206,7 @@ public class Entrada extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtFila, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtAsiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(boxAsientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(16, 16, 16)
@@ -241,28 +235,32 @@ public class Entrada extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String precioEntradaDesc = LabelPrecioDesc.getText();
-        String fila = txtFila.getText();
-        String asiento = txtAsiento.getText();
         
-        List<DTODescuento> listaDtoDescuentos = control.traerDescuentos();
+        String IdFuncion = txtFuncion.getText();
+        
+        
         String nombreDesc = String.valueOf(boxDescuento.getSelectedItem());
+        /*
         DTODescuento DtoDescuento = new DTODescuento();
-        for(DTODescuento DtoDesc: listaDtoDescuentos){
+        for(DTODescuento DtoDesc: this.listaDtoDescuentos){
             if(nombreDesc.equals(DtoDesc.getNombreDescuento())){
                 DtoDescuento = DtoDesc;
             }
         }
+        */
         
+        String precioEntradaDesc = LabelPrecioDesc.getText();
+        String asiento = String.valueOf(boxAsientos.getSelectedItem());
         
-        control.venderEntrada(precioEntradaDesc, fila, asiento, DtoDescuento);
+        control.venderEntrada(IdFuncion, precioEntradaDesc, asiento, nombreDesc);
         boxDescuento.removeAll();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         DTOFuncion DtoFunc = control.traerFuncion(seleccionTabla());
-        txtFuncion.setText(DtoFunc.getDTOpelicula().getTitulo());
+        txtFuncion.setText(DtoFunc.getDTOpelicula().getId());
         txtPrecio.setText(DtoFunc.getPrecioEntrada());
+        listarAsientos(DtoFunc.getDTOsala());
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -277,13 +275,21 @@ public class Entrada extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton5ActionPerformed
     
-    
+    public void listarAsientos(DTOSala DtoSala){
+        ArrayList listaAsientos = control.listarAsientos(DtoSala);
+       
+        for (int i = 0; i < listaAsientos.size(); i++) {
+            String elemento = String.valueOf(listaAsientos.get(i));
+            boxAsientos.addItem(elemento);
+        }
+
+    }
     
     public int seleccionTabla(){
-        int IdPelicula = 0;
+        int IdFuncion = 0;
         if (jTableEntrada.getRowCount() > 0) {
             if (jTableEntrada.getSelectedRow() != -1) {
-                IdPelicula = Integer.parseInt(String.valueOf(jTableEntrada.getValueAt(jTableEntrada.getSelectedRow(), 0)));
+                IdFuncion = Integer.parseInt(String.valueOf(jTableEntrada.getValueAt(jTableEntrada.getSelectedRow(), 0)));
             }
             else{
                 mostrarMensajes("No Seleccionó ningún alumno","Error", "No se elimnó el registro");
@@ -292,7 +298,7 @@ public class Entrada extends javax.swing.JPanel {
         else{
             mostrarMensajes("No hay registros","Error", "No se elimnó el registro");
         }
-        return IdPelicula;
+        return IdFuncion;
     }
     
     private void actualizarDescuentos(){
@@ -309,16 +315,16 @@ public class Entrada extends javax.swing.JPanel {
             }
         };
         //establecer nombre y columnas
-        String titulos[] = {"ID", "Titulo", "Horario", "Precio"};
+        String titulos[] = {"ID", "Pelicula", "Sala", "Horario", "Fecha", "Precio"};
         tabla.setColumnIdentifiers(titulos);
         
         //carga de los datos desde la base de datos
-        List<DTOFuncion> listaDtoFunciones = control.traerFunciones();
+        List <DTOFuncion> listaDtoFuncion = control.traerFunciones();
         
         //recorrer la lista y mostrar cada uno de llos elementos en la tabla
-        if (listaDtoFunciones != null){
-            for (DTOFuncion DtoFunc : listaDtoFunciones){
-                Object[] objeto = {DtoFunc.getId(), DtoFunc.getDTOpelicula().getTitulo(), DtoFunc.getHorario(), DtoFunc.getPrecioEntrada()};    
+        if (listaDtoFuncion != null){
+            for (DTOFuncion DtoFunc : listaDtoFuncion){
+                Object[] objeto = {DtoFunc.getId(), DtoFunc.getDTOpelicula().getTitulo(), DtoFunc.getDTOsala().getNombreSala(), DtoFunc.getHorario(), DtoFunc.getFecha(), DtoFunc.getPrecioEntrada()};    
                 tabla.addRow(objeto);
             }
         }
@@ -341,6 +347,7 @@ public class Entrada extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel EntradaPanel;
     private javax.swing.JLabel LabelPrecioDesc;
+    private javax.swing.JComboBox<String> boxAsientos;
     private javax.swing.JComboBox<String> boxDescuento;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -348,7 +355,6 @@ public class Entrada extends javax.swing.JPanel {
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -356,8 +362,6 @@ public class Entrada extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableEntrada;
-    private javax.swing.JTextField txtAsiento;
-    private javax.swing.JTextField txtFila;
     private javax.swing.JTextField txtFuncion;
     private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables

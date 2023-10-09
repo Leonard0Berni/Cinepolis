@@ -114,8 +114,8 @@ public class ControladoraPersistencia {
         return FuncionJPA.findFuncion(IdFuncion);
     }
 
-    public void venderEntrada(Entrada entrad) {
-        EntradaJPA.create(entrad);
+    public void venderEntrada(Entrada entrada) {
+        EntradaJPA.create(entrada);
     }
 
     public List<Usuario> traerUsuarios() {

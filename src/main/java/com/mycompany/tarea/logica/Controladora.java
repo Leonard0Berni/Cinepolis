@@ -318,15 +318,34 @@ public class Controladora {
         return DtoFunc;
     }
 
-    public void venderEntrada(String precioEntradaDesc, String fila, String asiento, DTODescuento DtoDescuento) {
-        Entrada entrad = new Entrada();
-        entrad.setPrecioEntradaDescuento(Float.parseFloat(precioEntradaDesc));
-        entrad.setFila(fila.charAt(0));
-        entrad.setNroAsiento(Integer.parseInt(asiento));
-        entrad.setVendida(true);
-        Descuento Desc = ControlPersis.traerDescuento(Integer.parseInt(DtoDescuento.getId()));
-        entrad.setDesc(Desc);
-        ControlPersis.venderEntrada(entrad);
+    public void venderEntrada(String IdFuncion, String precioEntradaDesc, String asiento, String nombreDesc){
+        //Conseguir la funcion
+        List<Funcion> listaFunciones = ControlPersis.traerFunciones();
+        Funcion Func = listaFunciones.get(Integer.parseInt(IdFuncion));
+        
+        //Conseguir el descuento
+        List<Descuento> listaDtoDescuentos = ControlPersis.traerDescuentos();
+        Descuento Descuento = new Descuento();
+        for(Descuento Desc: listaDtoDescuentos){
+            if(nombreDesc.equals(Desc.getNombreDescuento())){
+                Descuento = Desc;
+            }
+        }
+        
+        String letra = asiento.replaceAll("[^A-Za-z]", "");
+        char letra2 = letra.charAt(0);
+        String numeroAsiento = asiento.replaceAll("[^0-9]", "");
+
+        
+        Entrada entrada = new Entrada();
+        entrada.setFuncion(Func);
+        entrada.setDesc(Descuento);
+        entrada.setPrecioEntradaDescuento(Float.parseFloat(precioEntradaDesc));
+        entrada.setFila(letra2);
+        entrada.setNroAsiento(Integer.parseInt(numeroAsiento));
+        entrada.setVendida(true);
+        
+        ControlPersis.venderEntrada(entrada);
     }
 
     public boolean login(String email, String contraseña) {
@@ -395,6 +414,28 @@ public class Controladora {
             Logger.getLogger(Controladora.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+    }
+
+    public ArrayList listarAsientos(DTOSala DtoSala) {
+        ArrayList listarAsientos = new ArrayList();
+        int CantAsientos = Integer.parseInt(DtoSala.getCantidadAsientos());
+        int Filas = Integer.parseInt(DtoSala.getFila());
+        int AsientosXFila = Integer.parseInt(DtoSala.getAsientosXfila());
+        char letra = 'A';
+        
+        int index = 0;
+        for (int i = 0; i <= CantAsientos; i++) {
+            if(i >= AsientosXFila){
+                letra ++;
+                AsientosXFila = AsientosXFila * 2;
+            }
+            String letra2 = String.valueOf(letra);
+            String asiento = letra2 + i;
+            
+            listarAsientos.add(letra2);
+            index =+ 1;
+        }
+        return listarAsientos;
     }
 
     
