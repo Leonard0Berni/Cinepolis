@@ -16,12 +16,12 @@ import javax.swing.table.DefaultTableModel;
 public class Funcion extends javax.swing.JPanel {
 
     Controladora control = new Controladora();
-    private List<DTOPelicula> listadoDtoPelicula;
-    private List<DTOSala> listadoDtoSala;
-    private List<DTOEstadoFuncion> listadoDtoEstados;
+    private List<DTOPelicula> listadoDtoPeliculas = control.traerPeliculas();
+    private List<DTOSala> listadoDtoSala = control.traerSalas();
+    private List<DTOEstadoFuncion> listadoDtoEstados = control.traerEstados();
     
     public void setList(List<DTOPelicula> listaPeliculas, List<DTOSala> listaDtoSalas, List<DTOEstadoFuncion> listaDtoEstados){
-        this.listadoDtoPelicula = listaPeliculas;
+        this.listadoDtoPeliculas = listaPeliculas;
         this.listadoDtoSala = listaDtoSalas;
         this.listadoDtoEstados = listaDtoEstados;
     }
@@ -55,6 +55,7 @@ public class Funcion extends javax.swing.JPanel {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         txtMin = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -63,9 +64,6 @@ public class Funcion extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         boxEstado = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        boxAsiento = new javax.swing.JComboBox<>();
-        jLabel9 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Funcion");
@@ -106,7 +104,7 @@ public class Funcion extends javax.swing.JPanel {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -131,6 +129,13 @@ public class Funcion extends javax.swing.JPanel {
 
         jButton5.setText("Ver");
 
+        jButton7.setText("Load");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -139,6 +144,8 @@ public class Funcion extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton7)
+                .addGap(47, 47, 47)
                 .addComponent(jButton5)
                 .addGap(112, 112, 112)
                 .addComponent(jButton4)
@@ -157,7 +164,8 @@ public class Funcion extends javax.swing.JPanel {
                     .addComponent(jButton2)
                     .addComponent(jButton3)
                     .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(jButton5)
+                    .addComponent(jButton7))
                 .addContainerGap())
         );
 
@@ -169,9 +177,11 @@ public class Funcion extends javax.swing.JPanel {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setText("Pelicula");
 
-        boxPelicula.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        boxSala.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        boxPelicula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boxPeliculaActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel7.setText("Sala");
@@ -180,18 +190,6 @@ public class Funcion extends javax.swing.JPanel {
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setText("Estado Funcion");
-
-        boxAsiento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel9.setText("Asientos");
-
-        jButton6.setText("Cargar");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout FuncionPanelLayout = new javax.swing.GroupLayout(FuncionPanel);
         FuncionPanel.setLayout(FuncionPanelLayout);
@@ -203,10 +201,12 @@ public class Funcion extends javax.swing.JPanel {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(FuncionPanelLayout.createSequentialGroup()
                         .addGroup(FuncionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FuncionPanelLayout.createSequentialGroup()
-                                .addGroup(FuncionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(boxEstado, 0, 271, Short.MAX_VALUE)
-                                    .addGroup(FuncionPanelLayout.createSequentialGroup()
+                            .addGroup(FuncionPanelLayout.createSequentialGroup()
+                                .addGroup(FuncionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(boxSala, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(boxPelicula, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(boxEstado, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, FuncionPanelLayout.createSequentialGroup()
                                         .addGroup(FuncionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel8)
                                             .addGroup(FuncionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -219,26 +219,16 @@ public class Funcion extends javax.swing.JPanel {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jLabel5)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtMin, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                                .addComponent(txtMin, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jLabel2))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(12, 12, 12))
                             .addGroup(FuncionPanelLayout.createSequentialGroup()
                                 .addGroup(FuncionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7)
                                     .addComponent(jLabel1)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel9))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FuncionPanelLayout.createSequentialGroup()
-                                .addGroup(FuncionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(FuncionPanelLayout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(jButton6))
-                                    .addComponent(boxAsiento, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(boxSala, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(boxPelicula, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(12, 12, 12)))
+                                    .addComponent(jLabel6))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -247,9 +237,6 @@ public class Funcion extends javax.swing.JPanel {
             .addGroup(FuncionPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(FuncionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(FuncionPanelLayout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(FuncionPanelLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
@@ -260,13 +247,7 @@ public class Funcion extends javax.swing.JPanel {
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(boxSala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(boxAsiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(FuncionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -284,10 +265,11 @@ public class Funcion extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(boxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51)))
+                        .addComponent(boxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(46, 46, 46))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -327,29 +309,20 @@ public class Funcion extends javax.swing.JPanel {
         control.crearFuncion(DtoPeli,DtoSala,DtoEstado,hs,min,precio,fechaAlta);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        boxAsiento.removeAll();
-        DTOSala DtoSala = buscarSala(String.valueOf(boxSala.getSelectedItem()));
-        int CantAsientos =  Integer.parseInt(DtoSala.getCantidadAsientos());
-        int Filas = Integer.parseInt(DtoSala.getFila());
-        int CantAsientosXFila = Integer.parseInt(DtoSala.getAsientosXfila());
-        
-        char letra = 'A';
-        
-        for (int i = 1; i <= CantAsientos; i++) {
-            if(i >= CantAsientosXFila){
-                letra ++;
-                CantAsientosXFila = CantAsientosXFila * 2;
-            }
-            String letra2 = String.valueOf(letra);
-            String Asiento = letra2 + i;
-            boxAsiento.addItem(Asiento);
-        }
-    }//GEN-LAST:event_jButton6ActionPerformed
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        actualizarTabla();
+        listarPeliculas();
+        listarSalas();
+        listarEstados();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void boxPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxPeliculaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_boxPeliculaActionPerformed
     
     public DTOPelicula buscarPelicula(String nombrePelicula){
         DTOPelicula DtoPelicula = new DTOPelicula();
-        for(DTOPelicula DtoPeli: this.listadoDtoPelicula){
+        for(DTOPelicula DtoPeli: this.listadoDtoPeliculas){
             if(DtoPeli.getTitulo().equals(nombrePelicula)){
                 DtoPelicula = DtoPeli;
             }else{
@@ -395,21 +368,22 @@ public class Funcion extends javax.swing.JPanel {
         return DtoEstadoFuncion;
     }
     
-    public void listarPeliculas(){
+    private void listarPeliculas(){
         boxPelicula.removeAll();
-        for(DTOPelicula DtoPeli: this.listadoDtoPelicula){
+        for(DTOPelicula DtoPeli: this.listadoDtoPeliculas){
             boxPelicula.addItem(DtoPeli.getTitulo());
         }
     }
     
-    public void listarSalas(){
+    private void listarSalas(){
         boxSala.removeAll();
         for(DTOSala DtoSala: this.listadoDtoSala){
+            System.out.println(DtoSala.getNombreSala());
             boxSala.addItem(DtoSala.getNombreSala());
         }
     }
     
-    public void listarEstados(){
+    private void listarEstados(){
         boxEstado.removeAll();
         for(DTOEstadoFuncion DtoEstado: this.listadoDtoEstados){
             boxEstado.addItem(DtoEstado.getNombreEstFun());
@@ -472,7 +446,6 @@ public class Funcion extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel FuncionPanel;
     private javax.swing.JTable JTableFuncion;
-    private javax.swing.JComboBox<String> boxAsiento;
     private javax.swing.JComboBox<String> boxEstado;
     private javax.swing.JComboBox<String> boxPelicula;
     private javax.swing.JComboBox<String> boxSala;
@@ -481,7 +454,7 @@ public class Funcion extends javax.swing.JPanel {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -490,7 +463,6 @@ public class Funcion extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;

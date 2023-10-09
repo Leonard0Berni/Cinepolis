@@ -17,7 +17,7 @@ public class Sala implements Serializable {
     private int nroSala;
     private int cantidadAsientos;
     private String nombreSala;
-    private String fila;
+    private String fila; //este deberia ser INT
     private int asientosXfila;
 
     public Sala() {

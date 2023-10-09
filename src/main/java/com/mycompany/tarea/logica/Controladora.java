@@ -19,13 +19,15 @@ public class Controladora {
 
     public void crearSala(String nombreSala, String CantAsientos, String Filas, String CantAsientosXFila) {
         int cantAsientos = Integer.parseInt(CantAsientos);
-        int cantAsientosXFila = Integer.parseInt(CantAsientosXFila);
         
         Sala sala = new Sala();
         sala.setNombreSala(nombreSala);
-        sala.setCantidadAsientos(cantAsientos);
-        sala.setAsientosXfila(cantAsientosXFila);
-        sala.setFila(Filas);
+        sala.setCantidadAsientos(Integer.parseInt(CantAsientos));
+        sala.setFila(Filas); //este deberia ser int
+        
+        int CantAsientosXFILA = sala.getCantidadAsientos() /   Integer.parseInt(Filas);
+        sala.setAsientosXfila(CantAsientosXFILA);
+        
         
         ControlPersis.crearSala(sala);
     }
@@ -33,10 +35,10 @@ public class Controladora {
     public List<DTOSala> traerSalas() {
         List<Sala> listaSala = ControlPersis.traerSalas();
         List<DTOSala> listaDtoSala = new ArrayList();
-        DTOSala DtoSala = new DTOSala();
         
         int index = 0;
         for(Sala sala: listaSala){
+            DTOSala DtoSala = new DTOSala();
             DtoSala.setId(String.valueOf(sala.getId()));
             DtoSala.setNombreSala(sala.getNombreSala());
             DtoSala.setCantidadAsientos(String.valueOf(sala.getCantidadAsientos()));
@@ -59,13 +61,15 @@ public class Controladora {
         return DtoSala;
     }
 
-    public void editarSala(String IdSala, String nombreSala, String CantAsientos, String Filas, String CantAsientosXFila) {
+    public void editarSala(String IdSala, String nombreSala, String CantAsientos, String Filas) {
         Sala sala = new Sala();
         sala.setId(Integer.parseInt(IdSala));
         sala.setNombreSala(nombreSala);
         sala.setCantidadAsientos(Integer.parseInt(CantAsientos));
-        sala.setAsientosXfila(Integer.parseInt(CantAsientosXFila));
         sala.setFila(Filas);
+        
+        int CantAsientosXFILA = sala.getCantidadAsientos() /   Integer.parseInt(Filas);
+        sala.setAsientosXfila(CantAsientosXFILA);
         
         ControlPersis.editarSala(sala);
     }

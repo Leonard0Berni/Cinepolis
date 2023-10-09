@@ -145,13 +145,16 @@ public class Sala extends javax.swing.JPanel {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(btnAgregarSala)
-                    .addComponent(jButton3)
-                    .addComponent(btnEditar)
-                    .addComponent(jButton2))
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnAgregarSala, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jButton3)
+                            .addComponent(btnEditar)
+                            .addComponent(jButton2))))
                 .addContainerGap())
         );
 
@@ -258,6 +261,7 @@ public class Sala extends javax.swing.JPanel {
         String CantAsientosXFila = txtAsientosXFila.getText();
         
         control.crearSala(nombreSala, CantAsientos, Filas, CantAsientosXFila);
+        actualizarTabla();
     }//GEN-LAST:event_btnAgregarSalaActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -279,14 +283,15 @@ public class Sala extends javax.swing.JPanel {
         String nombreSala = txtNombreSala.getText();
         String CantAsientos = txtCantAsientos.getText();
         String Filas = txtFilas.getText();
-        String CantAsientosXFila = txtAsientosXFila.getText();
         
-        control.editarSala(IdSala, nombreSala, CantAsientos, Filas, CantAsientosXFila);
+        control.editarSala(IdSala, nombreSala, CantAsientos, Filas);
+        actualizarTabla();
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        int IdSala = seleccionTabla();
-        control.eliminarPelicula(IdSala);
+        String IdSala = String.valueOf(seleccionTabla());
+        control.eliminarSala(IdSala);
+        actualizarTabla();
     }//GEN-LAST:event_jButton3ActionPerformed
     
     public int seleccionTabla(){
@@ -295,12 +300,13 @@ public class Sala extends javax.swing.JPanel {
             if (jTableSala.getSelectedRow() != -1) {
                 //optengo la id a borrar
                 IdSala = Integer.parseInt(String.valueOf(jTableSala.getValueAt(jTableSala.getSelectedRow(), 0)));
-                
+                /*
                 JOptionPane optionPane = new JOptionPane("Se Eliminó correctamente el alumno");
                 optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
                 JDialog dialog = optionPane.createDialog("Eliminación Exitoso");
                 dialog.setAlwaysOnTop(true);
                 dialog.setVisible(true);
+                */
             }
             else{
                 mostrarMensajes("No Seleccionó ningún alumno","Error", "No se elimnó el registro");
@@ -328,12 +334,12 @@ public class Sala extends javax.swing.JPanel {
         tabla.setColumnIdentifiers(titulos);
         
         //carga de los datos desde la base de datos
-        List <DTOSala> listaAlumnos = control.traerSalas();
+        List <DTOSala> listaDtoSalas = control.traerSalas();
         
         
         //recorrer la lista y mostrar cada uno de llos elementos en la tabla
-        if (listaAlumnos != null){
-            for (DTOSala DtoSala : listaAlumnos){
+        if (listaDtoSalas != null){
+            for (DTOSala DtoSala : listaDtoSalas){
                 Object[] objeto = {DtoSala.getId(), DtoSala.getNombreSala(), DtoSala.getCantidadAsientos(), DtoSala.getFila(), DtoSala.getAsientosXfila()};    
                 tabla.addRow(objeto);
             }
