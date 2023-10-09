@@ -320,8 +320,7 @@ public class Controladora {
 
     public void venderEntrada(String IdFuncion, String precioEntradaDesc, String asiento, String nombreDesc){
         //Conseguir la funcion
-        List<Funcion> listaFunciones = ControlPersis.traerFunciones();
-        Funcion Func = listaFunciones.get(Integer.parseInt(IdFuncion));
+        Funcion Func = ControlPersis.traerFuncion(Integer.parseInt(IdFuncion));
         
         //Conseguir el descuento
         List<Descuento> listaDtoDescuentos = ControlPersis.traerDescuentos();
@@ -417,7 +416,11 @@ public class Controladora {
     }
 
     public ArrayList listarAsientos(DTOSala DtoSala) {
-        ArrayList listarAsientos = new ArrayList();
+        
+        //  Aqui generamos los asientos a partir de la cantidad de asientos
+        //  dividido por la cantidad de filas, se le asignan numero y letra.
+        
+        ArrayList<String> listarAsientos = new ArrayList<>();
         int CantAsientos = Integer.parseInt(DtoSala.getCantidadAsientos());
         int Filas = Integer.parseInt(DtoSala.getFila());
         int AsientosXFila = Integer.parseInt(DtoSala.getAsientosXfila());
@@ -431,11 +434,44 @@ public class Controladora {
             }
             String letra2 = String.valueOf(letra);
             String asiento = letra2 + i;
-            
-            listarAsientos.add(letra2);
+            listarAsientos.add(asiento);
             index =+ 1;
         }
+        
+        //  Aqui hacemos la comparacion para que los asientos 
+        //  vendidos no se vuelvan a vender
+        
+        List<Entrada> listaEntradas = ControlPersis.traerEntradas();
+        ArrayList<String> listaAsientosVendidos = new ArrayList<>();
+        int index1 = 0;
+        for(Entrada entrada: listaEntradas){
+            String let = String.valueOf(entrada.getFila());
+            String num = String.valueOf(entrada.getNroAsiento());
+            String asi = let + num;
+            listaAsientosVendidos.add(asi);
+            index1 =+ 1;
+        }
+        
+        listarAsientos.removeAll(listaAsientosVendidos);
+        
         return listarAsientos;
+    }
+
+    public String aplicarDescuento(String nombreDesc, String precioActual) {
+        float resultado = 0;
+        List<Descuento> listaDescuentos = ControlPersis.traerDescuentos();
+        float precio = Float.parseFloat(precioActual);
+        for(Descuento Desc: listaDescuentos){
+            if(nombreDesc.equals(Desc.getNombreDescuento())){
+                float descuento = Desc.getPorcentajeDesc();
+                float operacion = precio * descuento;
+                resultado = precio - operacion;
+                
+            }
+        }
+        String DescAplicado = String.valueOf(resultado);
+        return DescAplicado;
+        
     }
 
     

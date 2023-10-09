@@ -138,6 +138,10 @@ public class ControladoraPersistencia {
         FuncionJPA.create(funcion);
     }
 
+    public List<Entrada> traerEntradas() {
+        return EntradaJPA.findEntradaEntities();
+    }
+
     
 
     

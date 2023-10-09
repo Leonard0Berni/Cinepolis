@@ -236,18 +236,8 @@ public class Entrada extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
-        String IdFuncion = txtFuncion.getText();
-        
-        
+        String IdFuncion = txtFuncion.getText(); 
         String nombreDesc = String.valueOf(boxDescuento.getSelectedItem());
-        /*
-        DTODescuento DtoDescuento = new DTODescuento();
-        for(DTODescuento DtoDesc: this.listaDtoDescuentos){
-            if(nombreDesc.equals(DtoDesc.getNombreDescuento())){
-                DtoDescuento = DtoDesc;
-            }
-        }
-        */
         
         String precioEntradaDesc = LabelPrecioDesc.getText();
         String asiento = String.valueOf(boxAsientos.getSelectedItem());
@@ -264,15 +254,11 @@ public class Entrada extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        List<DTODescuento> listaDtoDescuentos = control.traerDescuentos();
         String nombreDesc = String.valueOf(boxDescuento.getSelectedItem());
-        for(DTODescuento DtoDesc: listaDtoDescuentos){
-            if(nombreDesc.equals(DtoDesc.getNombreDescuento())){
-                float precio = Float.parseFloat(txtPrecio.getText());
-                float precioDesc = precio * Float.parseFloat(DtoDesc.getPorcentajeDesc());
-                LabelPrecioDesc.setText("$"+ String.valueOf(precioDesc));
-            }
-        }
+        String precioActual = txtPrecio.getText();
+        String DescAplicado = control.aplicarDescuento(nombreDesc, precioActual);
+        LabelPrecioDesc.setText(DescAplicado);
+        
     }//GEN-LAST:event_jButton5ActionPerformed
     
     public void listarAsientos(DTOSala DtoSala){
